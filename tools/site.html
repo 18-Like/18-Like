@@ -64,9 +64,9 @@ section{padding-block:36px}
 .hero{position:relative;overflow:hidden;padding-block:48px 40px;background:
   radial-gradient(120% 80% at 85% 10%,rgba(212,86,124,.28),transparent 60%),
   radial-gradient(90% 70% at 0% 100%,rgba(230,184,114,.14),transparent 60%),var(--bg)}
-.hero .photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 20%;pointer-events:none}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,20,32,.92) 0%,rgba(14,20,32,.7) 45%,rgba(14,20,32,.15) 100%),linear-gradient(0deg,var(--bg) 0%,transparent 35%);pointer-events:none}
-.hero .wrap{z-index:1}
+.hero .photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;pointer-events:none}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,20,32,.45) 0%,rgba(14,20,32,.1) 100%),linear-gradient(0deg,var(--bg) 0%,transparent 25%);pointer-events:none}
+.hero .wrap{z-index:1;text-shadow:0 2px 12px rgba(0,0,0,.6)}
 .hero .wrap{position:relative;display:grid;gap:18px}
 .badge{justify-self:start;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(230,184,114,.45);background:rgba(230,184,114,.08);color:var(--gold);border-radius:999px;padding:4px 14px;font-size:.82rem;font-weight:700}
 .badge i{width:7px;height:7px;border-radius:50%;background:var(--gold)}
@@ -179,7 +179,7 @@ details p{color:var(--muted);margin-top:6px;font-size:.93rem}
   <!-- 首頁 -->
   <div class="view" id="v-home">
     <div class="hero">
-      <img class="photo" src="/img/hero.jpg" alt="" aria-hidden="true">
+      <img class="photo" src="/img/hero-cover.jpg" alt="" aria-hidden="true">
       <div class="wrap">
         <span class="slogan">YOU’RE WORTH A DOUBLE TAP.</span>
         <span class="badge"><i></i>十八睞讓你美 ・ 真人髮片 ・ AI 試戴</span>
