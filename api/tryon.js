@@ -66,7 +66,12 @@ export default async function handler(req, res) {
       body: payload
     });
     if (r.status === 404) { lastError = 'model_not_found'; continue; }
-    if (r.status === 429) return res.status(429).json({ error: 'gemini_quota' });
+    if (r.status === 429) {
+      const t = await r.text();
+      console.error('Gemini 429', model, t.slice(0, 500));
+      lastError = /limit: 0|free_tier|billing/i.test(t) ? 'gemini_billing' : 'gemini_quota';
+      continue;
+    }
     if (!r.ok) {
       console.error('Gemini error', model, r.status, (await r.text()).slice(0, 500));
       return res.status(502).json({ error: r.status === 400 || r.status === 403 ? 'gemini_key_or_request' : 'gemini_error' });
@@ -77,5 +82,5 @@ export default async function handler(req, res) {
     if (!img) return res.status(502).json({ error: 'no_image' });
     return res.status(200).json({ image: `data:${img.mimeType || img.mime_type || 'image/png'};base64,${img.data}`, model });
   }
-  return res.status(502).json({ error: lastError });
+  return res.status(lastError.startsWith('gemini_') ? 429 : 502).json({ error: lastError });
 }

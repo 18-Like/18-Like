@@ -518,7 +518,7 @@ const SAMPLES={"front": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBD
       if (+$('split-range').value < 30) $('split-range').value = 55;
       toast('');
     } catch (e) {
-      toast({not_configured:'網站還沒設定 Gemini API key。', rate_limited:'試用次數太多了，請一小時後再試。', gemini_quota:'Gemini 額度用完了，請稍後再試。', no_image:'AI 這次沒有產生照片，換個範圍再試一次。'}[e] || 'AI 生成失敗，請再試一次。');
+      toast({not_configured:'網站還沒設定 Gemini API key。', rate_limited:'試用次數太多了，請一小時後再試。', gemini_quota:'Gemini 額度用完了，請稍後再試。', gemini_billing:'Gemini 帳號還沒開啟付費（Billing），生圖功能需要開啟後才能使用。', no_image:'AI 這次沒有產生照片，換個範圍再試一次。'}[e] || 'AI 生成失敗，請再試一次。');
     }
     S.busy = false; $('generate').textContent = 'AI 生成逼真效果';
     if (S.cur === k) render();
