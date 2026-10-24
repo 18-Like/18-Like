@@ -484,7 +484,7 @@ const SAMPLES={"front": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBD
       ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.beginPath(); ctx.ellipse(r.cx, r.cy, r.rx, r.ry, 0, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
     }
     $('split').style.left = (split * 100) + '%';
-    $('hint').textContent = p.ai ? (p.ai.key === aiKey(p) ? 'AI 已生成戴上髮片的效果。左右拖曳中間的線比較前後。' : '範圍或顏色已調整，按「AI 生成逼真效果」重新產生。') : p.hint;
+    $('hint').textContent = p.ai ? (p.ai.key === aiKey(p) ? 'AI 已生成戴上髮片的效果。左右拖曳中間的線比較前後。' : '範圍或顏色已調整，按「AI 生成逼真效果」重新產生。') : S.server ? '現在是快速預覽。框好補髮範圍後，按下方「AI 生成逼真效果」看真實照片效果。' : p.hint;
   }
   function aiKey(p){ const r = regionPx(p); return [S.cur, r.cx, r.cy, r.rx, r.ry, density(), S.color].map(v => typeof v === 'number' ? Math.round(v * 100) : v).join('|'); }
 
