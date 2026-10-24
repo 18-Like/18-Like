@@ -198,6 +198,7 @@ html{scroll-behavior:smooth}
           <button class="btn ghost" type="button" id="reanalyze" hidden>請 AI 重新判斷</button>
           <a class="btn solid" href="#contact">喜歡這個效果，傳給我們估價</a>
         </div>
+        <p class="tool-note" id="ai-mode"></p>
         <p class="toast" id="tool-toast" role="status"></p>
         <p class="tool-note">試戴畫面是模擬效果，實際成品依髮片款式、髮色與配戴方式會有差異。</p>
       </div>
@@ -277,7 +278,7 @@ const SAMPLES={"front": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBD
   ];
   const MAX = 900;
   const $ = id => document.getElementById(id);
-  const S = {photos:{}, cur:null, color:'auto', drag:null, server:false, busy:false};
+  const S = {photos:{}, cur:null, color:'auto', drag:null, server:false, serverState:'none', busy:false};
   const cv = $('stage-canvas'), ctx = cv.getContext('2d');
   let sampleApi = null, downloadsApi = null;
 
@@ -470,6 +471,12 @@ const SAMPLES={"front": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBD
     $('download').hidden = !p || !(downloadsApi || S.server);
     $('generate').hidden = !p || !S.server;
     $('generate').disabled = S.busy;
+    $('ai-mode').textContent = {
+      none: '這是預覽版，只有快速模擬。「AI 生成逼真效果」按鈕只會出現在正式網站（vercel.app 網址）。',
+      unconfigured: '正式網站還沒讀到 Gemini API key：請到 Vercel 的 Settings → Environment Variables 確認 GEMINI_API_KEY，再到 Deployments 按 Redeploy。',
+      locked: '請用含存取碼的連結（網址後面加 /?k=存取碼）重新打開，才能使用 AI 生成。',
+      ready: ''
+    }[S.serverState];
     $('reanalyze').hidden = !p || !sampleApi;
     if (!p) { $('hint').textContent = ''; return; }
     if (cv.width !== p.w || cv.height !== p.h) { cv.width = p.w; cv.height = p.h; }
@@ -612,7 +619,7 @@ const SAMPLES={"front": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBD
   render();
 
   if (location.protocol.startsWith('http')) {
-    fetch('/api/tryon').then(r => r.ok ? r.json() : null).then(j => { S.server = !!(j && j.ok && j.configured); render(); }).catch(() => {});
+    fetch('/api/tryon').then(r => r.status === 403 ? {locked:true} : r.ok ? r.json() : null).then(j => { S.server = !!(j && j.ok && j.configured); S.serverState = !j ? 'none' : j.locked ? 'locked' : S.server ? 'ready' : 'unconfigured'; render(); }).catch(() => {});
   }
   if (window.claude && window.claude.use) {
     window.claude.use('sample').then(s => { sampleApi = s; render(); }).catch(() => {});
