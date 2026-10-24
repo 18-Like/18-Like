@@ -1,6 +1,6 @@
 # 十八睞讓你美 網站（私人）
 
-- `tools/site.html`：網站本體（商品、髮色、尺寸、訂購流程、AI 換髮試戴）。修改後執行 `node tools/build.mjs` 產生 `api/_site.js`。
+- `tools/site.template.html`：網站本體（首頁、AI 試戴、款式、我的）。修改後執行 `node tools/build.mjs`，會產生 `tools/site.html` 與 `api/_site.js`。
 - `api/page.js`：送出網頁，檢查存取碼
 - `api/tryon.js`：AI 換髮後端，呼叫 Google Gemini 生圖
 

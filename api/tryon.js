@@ -21,13 +21,22 @@ function splitDataUrl(s) {
   return m ? { mimeType: m[1], data: m[2] } : null;
 }
 
-function buildPrompt({ angle, color, density }) {
+const STYLES = {
+  natural: '保留客人原本的髮型、長度與分線，只把稀疏、露出頭皮的地方補滿，像戴上一片高品質真人髮補髮片',
+  side: '整理成俐落的男士商務側分髮型，頂部有自然蓬度，兩側修短',
+  textured: '整理成自然的男士紋理碎蓋髮型，瀏海微微蓋住額頭，有層次感',
+  short: '整理成清爽的男士短髮，頂部濃密有立體感，兩側與後面修短',
+  bangs: '加上自然的空氣瀏海，頭頂髮量變多，整體看起來年輕柔和',
+  long: '頭髮變成濃密、有光澤的及肩長髮，髮量明顯增加'
+};
+
+function buildPrompt({ angle, color, density, style, hasMask }) {
   const amount = density >= 0.8 ? '濃密' : density >= 0.5 ? '自然適中' : '略為加密';
   return [
-    `第一張圖是客人「${angle}」角度的照片，第二張是遮罩：白色橢圓是要補髮的範圍。`,
-    `請編輯第一張照片，讓白色範圍內看起來像戴上一片高品質真人髮補髮片：頭髮${amount}、蓋住頭皮，`,
-    `髮色${color ? '為' + color : '和客人原本的頭髮一致'}，髮流方向、捲度、光澤與光線都要和周圍原生髮自然銜接，邊緣不可有明顯分界。`,
-    '嚴格保持不變：臉、五官、表情、膚色、身份、耳朵、衣服、背景、拍攝角度、構圖與畫面比例。範圍以外的頭髮不要改變髮型。',
+    `這是客人「${angle}」角度的照片${hasMask ? '，第二張是遮罩：白色橢圓是要補髮的範圍' : ''}。`,
+    `請編輯這張照片，讓客人看起來像戴上了高品質真人髮髮片：${STYLES[style] || STYLES.natural}。`,
+    `頭髮${amount}、完全蓋住稀疏的頭皮，髮色${color ? '為' + color : '和客人原本的頭髮一致'}，髮流、光澤與光線要自然，髮際線要像真的長出來的。`,
+    '嚴格保持不變：臉、五官、表情、膚色、身份、耳朵、衣服、背景、拍攝角度、構圖與畫面比例。',
     '不要加入文字、浮水印或邊框。只輸出編輯後的照片。'
   ].join('');
 }
@@ -43,17 +52,18 @@ export default async function handler(req, res) {
   if (rateLimited(ip)) return res.status(429).json({ error: 'rate_limited' });
 
   const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-  const image = splitDataUrl(body.image), mask = splitDataUrl(body.mask);
-  if (!image || !mask) return res.status(400).json({ error: 'bad_image' });
+  const image = splitDataUrl(body.image), mask = body.mask ? splitDataUrl(body.mask) : null;
+  if (!image || (body.mask && !mask)) return res.status(400).json({ error: 'bad_image' });
+  const style = Object.hasOwn(STYLES, body.style) ? body.style : 'natural';
   const angle = ['正面', '頭頂', '左側', '右側'].includes(body.angle) ? body.angle : '正面';
   const color = typeof body.color === 'string' ? body.color.slice(0, 20) : '';
   const density = Math.max(0, Math.min(1, Number(body.density) || 0.75));
 
   const payload = JSON.stringify({
     contents: [{ role: 'user', parts: [
-      { text: buildPrompt({ angle, color, density }) },
+      { text: buildPrompt({ angle, color, density, style, hasMask: !!mask }) },
       { inline_data: { mime_type: image.mimeType, data: image.data } },
-      { inline_data: { mime_type: mask.mimeType, data: mask.data } }
+      ...(mask ? [{ inline_data: { mime_type: mask.mimeType, data: mask.data } }] : [])
     ] }],
     generationConfig: { responseModalities: ['IMAGE'] }
   });

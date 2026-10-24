@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1420">
+<title>十八睞讓你美</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* 深色單一主題：手機 App 式版面，上方品牌列、下方四格選單 */
+:root{
+  color-scheme:dark;
+  --bg:#0e1420; --surface:#172033; --surface-2:#1f2a40; --line:#2b3752;
+  --ink:#f3ede7; --muted:#a2abbd; --rose:#d4567c; --rose-deep:#a83a5d; --gold:#e6b872;
+  --ok:#4fbf8b; --warn:#f0a35e;
+  --f-display:"Noto Serif TC","Songti TC",serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --tab-h:64px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+img,canvas{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.3;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* 上方品牌列 */
+.top{position:sticky;top:0;z-index:20;background:rgba(14,20,32,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px}
+.brand{font-family:var(--f-display);font-weight:900;font-size:1.2rem;letter-spacing:.06em;text-decoration:none}
+.brand small{display:block;font-family:var(--f-body);font-weight:500;font-size:.62rem;letter-spacing:.3em;color:var(--gold);margin-top:-4px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:8px 16px;font-weight:700;font-size:.9rem;text-decoration:none;border:0;cursor:pointer}
+.pill.line{background:#06c755;color:#fff}
+
+main{padding-bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 24px)}
+.view{animation:fade .25s ease}
+@keyframes fade{from{opacity:.4}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.view{animation:none}}
+section{padding-block:36px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;letter-spacing:.12em;color:var(--gold)}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.sec-title{font-size:1.6rem;margin-top:6px}
+.sec-sub{color:var(--muted);margin-top:6px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border-radius:16px;padding:16px 20px;font-weight:700;font-size:1.05rem;border:0;cursor:pointer;text-decoration:none}
+.btn.primary{background:linear-gradient(135deg,var(--rose),var(--rose-deep));color:#fff;box-shadow:0 10px 30px -10px rgba(212,86,124,.6)}
+.btn.ghost{background:var(--surface);border:1px solid var(--line);color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn svg{width:22px;height:22px;flex:none}
+
+/* 首頁 */
+.hero{position:relative;overflow:hidden;padding-block:48px 40px;background:
+  radial-gradient(120% 80% at 85% 10%,rgba(212,86,124,.28),transparent 60%),
+  radial-gradient(90% 70% at 0% 100%,rgba(230,184,114,.14),transparent 60%),var(--bg)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.35;pointer-events:none}
+.hero .wrap{position:relative;display:grid;gap:18px}
+.badge{justify-self:start;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(230,184,114,.45);background:rgba(230,184,114,.08);color:var(--gold);border-radius:999px;padding:4px 14px;font-size:.82rem;font-weight:700}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.hero h1{font-size:clamp(2.3rem,10vw,3.4rem);font-weight:900;letter-spacing:.02em}
+.hero h1 em{font-style:normal;color:var(--rose)}
+.hero p{color:#cfd5e1;font-size:1.02rem;max-width:30em}
+.hero .ctas{display:grid;gap:12px;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border-block:1px solid var(--line)}
+.stats div{padding:18px 8px;text-align:center}
+.stats div+div{border-left:1px solid var(--line)}
+.stats b{display:block;font-family:var(--f-display);font-size:1.5rem;color:var(--ink)}
+.stats span{font-size:.8rem;color:var(--muted)}
+.steps{display:grid;gap:14px;margin-top:22px;counter-reset:s;list-style:none;padding:0}
+.steps li{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px}
+.steps .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center}
+.steps .ic svg{width:26px;height:26px;stroke:#fff}
+.steps h3{font-family:var(--f-body);font-size:1.05rem}
+.steps p{color:var(--muted);font-size:.93rem;margin-top:2px}
+.scroller{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,62%);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-top:20px}
+.scroller>*{scroll-snap-align:start}
+
+/* 商品卡 */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.card .art{position:relative;aspect-ratio:4/4.2;background:linear-gradient(160deg,#243149,#121a2a)}
+.card .art canvas{width:100%;height:100%}
+.card .try{position:absolute;right:10px;bottom:10px;display:inline-flex;align-items:center;gap:6px;background:rgba(14,20,32,.85);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:700;font-size:.85rem;cursor:pointer}
+.card .try svg{width:16px;height:16px}
+.card .body{padding:14px 16px 16px;display:grid;gap:6px;flex:1;align-content:start}
+.tag{justify-self:start;font-size:.75rem;font-weight:700;color:var(--gold);border:1px solid rgba(230,184,114,.4);border-radius:999px;padding:1px 10px}
+.card h3{font-family:var(--f-body);font-size:1.05rem}
+.card p{color:var(--muted);font-size:.88rem}
+.card .price{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:6px;padding-top:10px;font-weight:700}
+.card .price span{color:var(--muted);font-weight:500;font-size:.85rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr));gap:14px;margin-top:18px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-top:16px}
+.chip{flex:none;border-radius:999px;padding:7px 16px;border:1px solid var(--line);background:var(--surface);font-weight:700;font-size:.9rem;cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--rose);border-color:var(--rose);color:#fff}
+.chip i{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:6px;border:1px solid rgba(255,255,255,.25)}
+
+/* AI 試戴 */
+.stage{position:relative;border-radius:22px;overflow:hidden;background:var(--surface);border:1px solid var(--line);aspect-ratio:4/5;max-width:100%;touch-action:none;user-select:none}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.empty{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:12px;color:var(--muted);text-align:center;padding:24px;cursor:pointer}
+.empty .circle{width:92px;height:92px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center}
+.empty svg{width:40px;height:40px;stroke:var(--muted)}
+.empty input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.loading{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:10px;background:rgba(14,20,32,.82);text-align:center}
+.spin{width:64px;height:64px;border-radius:50%;border:4px solid var(--surface-2);border-top-color:var(--rose);animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:3s}}
+.loading b{font-size:1.1rem}
+.loading span{color:var(--muted);font-size:.9rem}
+.lbl{position:absolute;bottom:12px;padding:3px 12px;border-radius:8px;font-size:.82rem;font-weight:700}
+.lbl.l{left:12px;background:rgba(14,20,32,.8)}
+.lbl.r{right:12px;background:var(--rose);color:#fff}
+.divider{position:absolute;top:0;bottom:0;width:3px;background:#fff;transform:translateX(-1.5px);pointer-events:none}
+.divider b{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:#fff;color:var(--rose-deep);display:grid;place-items:center;font-size:1rem;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.replace{position:absolute;top:12px;right:12px;display:inline-flex;align-items:center;gap:6px;background:rgba(14,20,32,.8);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:700;cursor:pointer}
+.replace input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.field{margin-top:22px}
+.field>b{display:block;font-size:.95rem;margin-bottom:2px}
+.field>small{color:var(--muted);font-size:.85rem}
+.actions{display:grid;gap:12px;margin-top:24px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.status{margin-top:14px;font-size:.9rem;color:var(--muted);display:flex;gap:8px;align-items:baseline}
+.status i{flex:none;width:9px;height:9px;border-radius:50%;background:var(--muted);transform:translateY(-1px)}
+.status.ok i{background:var(--ok)}
+.status.warn{color:var(--warn)}
+.status.warn i{background:var(--warn)}
+.msg{min-height:1.4em;margin-top:10px;color:var(--warn);font-size:.92rem}
+.tip{margin-top:16px;color:var(--muted);font-size:.85rem}
+
+/* 我的 */
+.profile{display:flex;align-items:center;gap:16px}
+.avatar{width:64px;height:64px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--f-display);font-size:1.4rem}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:18px}
+.panel h3{font-family:var(--f-body);font-size:1.05rem;display:flex;justify-content:space-between;align-items:center}
+.hist{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;margin-top:14px}
+.hist button{padding:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface-2);cursor:pointer;aspect-ratio:4/5}
+.hist button img{width:100%;height:100%;object-fit:cover}
+.hist .add{display:grid;place-items:center;align-content:center;gap:4px;color:var(--muted);font-size:.85rem;border-style:dashed}
+.info{display:grid;gap:10px;margin-top:12px;font-size:.95rem}
+.info div{display:grid;grid-template-columns:5em 1fr;gap:8px}
+.info dt{color:var(--muted)}
+.info dd{margin:0}
+details{border-top:1px solid var(--line);padding-block:12px}
+details:first-of-type{border-top:0}
+summary{cursor:pointer;font-weight:700}
+details p{color:var(--muted);margin-top:6px;font-size:.93rem}
+.note{font-size:.75rem;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:0 6px;margin-left:6px}
+
+/* 下方選單 */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(18,25,40,.97);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.tabbar .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);height:var(--tab-h)}
+.tabbar a{display:grid;place-items:center;align-content:center;gap:2px;text-decoration:none;color:var(--muted);font-size:.78rem;font-weight:700}
+.tabbar a svg{width:24px;height:24px;stroke:currentColor}
+.tabbar a[aria-current="page"]{color:var(--rose)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#home">十八睞讓你美<small>HAIR PIECE STUDIO</small></a>
+    <a class="pill line" href="https://line.me/R/ti/p/@your-line-id" target="_blank" rel="noopener">LINE 諮詢</a>
+  </div>
+</header>
+
+<main>
+  <!-- 首頁 -->
+  <div class="view" id="v-home">
+    <div class="hero">
+      <canvas id="hero-strands" aria-hidden="true"></canvas>
+      <div class="wrap">
+        <span class="badge"><i></i>真人髮片 ・ AI 試戴</span>
+        <h1>重拾髮量<br><em>美回十八歲</em></h1>
+        <p>上傳一張照片，AI 幫你換上不同款式的髮片，先看到戴上去的樣子再決定。真人髮製作，一對一選色與配戴教學。</p>
+        <div class="ctas">
+          <a class="btn primary" href="#tryon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8 19 13M17.8 6.2 19 5M3 21l9-9M12.2 6.2 11 5"/></svg>立即 AI 試戴</a>
+          <a class="btn ghost" href="#shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>瀏覽髮片款式</a>
+        </div>
+      </div>
+    </div>
+    <div class="stats">
+      <div><b>100%</b><span>真人髮可燙染</span></div>
+      <div><b>8 色</b><span>自然髮色可選</span></div>
+      <div><b>1 對 1</b><span>選色配戴教學</span></div>
+    </div>
+    <section>
+      <div class="wrap">
+        <span class="eyebrow"><i></i>怎麼開始</span>
+        <h2 class="sec-title">四個步驟，在家就能完成</h2>
+        <ol class="steps">
+          <li><span class="ic" style="background:#3b5bdb"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M15 4V2M15 16v-2M8 9h2M20 9h2M3 21l9-9"/></svg></span><div><h3>線上 AI 試戴</h3><p>上傳照片，預覽不同髮片的戴上效果，不用再盲選。</p></div></li>
+          <li><span class="ic" style="background:#2b3752"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></span><div><h3>LINE 確認款式</h3><p>傳試戴圖給我們，確認款式、尺寸與髮色後報價。</p></div></li>
+          <li><span class="ic" style="background:#c7772f"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg></span><div><h3>訂製與修剪</h3><p>依你的頭型與原生髮修剪，戴上後自然銜接。</p></div></li>
+          <li><span class="ic" style="background:#1f8a5b"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></span><div><h3>配戴教學與保養</h3><p>附上配戴、清洗與保養說明，有問題隨時 LINE 問。</p></div></li>
+        </ol>
+      </div>
+    </section>
+    <section style="padding-top:0">
+      <div class="wrap">
+        <span class="eyebrow"><i></i>熱門款式</span>
+        <h2 class="sec-title">挑一款，馬上試戴</h2>
+        <div class="scroller" id="home-products"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- AI 試戴 -->
+  <div class="view" id="v-tryon" hidden>
+    <section style="padding-top:20px">
+      <div class="wrap">
+        <div class="stage" id="stage">
+          <canvas id="stage-canvas"></canvas>
+          <label class="empty" id="empty">
+            <span class="circle"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg></span>
+            <b style="color:var(--ink)">上傳正面照片</b>
+            <span>光線充足、臉朝前、頭髮照平常的樣子</span>
+            <input type="file" accept="image/*" id="file-main" aria-label="上傳照片">
+          </label>
+          <label class="replace" id="replace" hidden>換照片<input type="file" accept="image/*" id="file-replace" aria-label="換照片"></label>
+          <div class="divider" id="divider" hidden><b>⇆</b></div>
+          <span class="lbl l" id="lbl-l" hidden>戴上後</span>
+          <span class="lbl r" id="lbl-r" hidden>原本</span>
+          <div class="loading" id="loading" hidden><div class="spin"></div><b>AI 正在為你設計髮型…</b><span>約 10–30 秒</span></div>
+        </div>
+        <button class="btn ghost" type="button" id="use-sample" style="margin-top:12px">先用範例照片看看</button>
+
+        <div class="field"><b>選擇款式</b><small>AI 會照這個款式幫你換上髮片</small><div class="chips" id="style-chips"></div></div>
+        <div class="field"><b>髮片顏色</b><div class="chips" id="color-chips"></div></div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" id="generate" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8 19 13M17.8 6.2 19 5M3 21l9-9M12.2 6.2 11 5"/></svg><span id="generate-text">AI 生成試戴效果</span></button>
+          <div class="row2" id="after-actions" hidden>
+            <button class="btn ghost" type="button" id="download">下載前後圖</button>
+            <a class="btn ghost" href="https://line.me/R/ti/p/@your-line-id" target="_blank" rel="noopener">LINE 詢問此款</a>
+          </div>
+        </div>
+        <p class="msg" id="msg" role="status"></p>
+        <p class="status" id="status"><i></i><span id="status-text">檢查 AI 連線中…</span></p>
+        <p class="tip">照片只用來產生試戴圖，不會公開。試戴圖是 AI 模擬效果，實際成品依髮片款式、髮色與配戴方式會有差異。</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- 商城 -->
+  <div class="view" id="v-shop" hidden>
+    <section style="padding-top:20px">
+      <div class="wrap">
+        <span class="eyebrow"><i></i>髮片款式</span>
+        <h2 class="sec-title">依需求選一款髮片</h2>
+        <p class="sec-sub">價格依尺寸、髮長與髮色而定，歡迎 LINE 詢問。<span class="note">款式為示意</span></p>
+        <div class="chips" id="shop-filter"></div>
+        <div class="grid" id="shop-grid"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 我的 -->
+  <div class="view" id="v-me" hidden>
+    <section style="padding-top:20px">
+      <div class="wrap">
+        <div class="profile"><div class="avatar">美</div><div><h2 style="font-size:1.3rem">歡迎回來</h2><p style="color:var(--muted);font-size:.9rem">試戴紀錄只存在你這支手機上</p></div></div>
+        <div class="panel">
+          <h3>AI 試戴紀錄 <span style="color:var(--muted);font-size:.85rem;font-weight:500" id="hist-count"></span></h3>
+          <div class="hist" id="hist"></div>
+        </div>
+        <div class="panel">
+          <h3>聯絡我們</h3>
+          <dl class="info">
+            <div><dt>LINE</dt><dd>@your-line-id <span class="note">請提供</span></dd></div>
+            <div><dt>營業時間</dt><dd>週一至週六 10:00–20:00</dd></div>
+            <div><dt>服務方式</dt><dd>線上諮詢、宅配到府、預約到店</dd></div>
+          </dl>
+        </div>
+        <div class="panel">
+          <h3>常見問題</h3>
+          <details><summary>戴髮片會不會很明顯？</summary><p>選對髮色與底座尺寸，加上真人髮可以和原生髮一起整理，近距離也不容易看出來。</p></details>
+          <details><summary>真人髮可以燙、染、吹整嗎？</summary><p>可以。燙染建議交給熟悉髮片的設計師，日常吹整溫度不要超過 180°C。</p></details>
+          <details><summary>一頂髮片可以用多久？</summary><p>視配戴頻率與保養而定，正確清洗與收納通常可使用半年到一年以上。</p></details>
+          <details><summary>可以退換貨嗎？</summary><p>未配戴、未修剪的商品可在到貨 7 天內聯繫我們辦理，客製商品恕不退換。<span class="note">請依實際規定修改</span></p></details>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<nav class="tabbar" aria-label="主選單">
+  <div class="in">
+    <a href="#home" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>首頁</a>
+    <a href="#tryon" data-tab="tryon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8 19 13M17.8 6.2 19 5M3 21l9-9M12.2 6.2 11 5"/></svg>AI 試戴</a>
+    <a href="#shop" data-tab="shop"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linejoin="round"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>款式</a>
+    <a href="#me" data-tab="me"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>我的</a>
+  </div>
+</nav>
+
+<script>
+/*SAMPLE*/
+(function(){
+  const $ = id => document.getElementById(id);
+  const STYLES = [
+    {k:'natural', name:'自然補髮', cat:'top', tag:'頭頂補髮', desc:'保留原本髮型，只把稀疏處補滿，最自然低調。', hair:'#2a1d18', len:.55},
+    {k:'side', name:'商務側分', cat:'men', tag:'男士', desc:'俐落側分，頂部有蓬度，上班見客都得體。', hair:'#1b1514', len:.5},
+    {k:'textured', name:'紋理碎蓋', cat:'men', tag:'男士', desc:'自然層次碎蓋，瀏海微蓋額頭，看起來更年輕。', hair:'#3b2a22', len:.6},
+    {k:'short', name:'清爽短髮', cat:'men', tag:'男士', desc:'頂部濃密立體，兩側修短，運動流汗也好整理。', hair:'#141011', len:.4},
+    {k:'bangs', name:'空氣瀏海', cat:'women', tag:'女士', desc:'三秒換上空氣瀏海，遮髮際線、修飾臉型。', hair:'#5a3b2a', len:.7},
+    {k:'long', name:'長髮增量', cat:'women', tag:'女士', desc:'增加長度與髮量，及肩長髮有光澤又濃密。', hair:'#7a4f35', len:1}
+  ];
+  const COLORS = [
+    {k:'', name:'自動比色', bg:'conic-gradient(#141011,#7a4f35,#b88a5e,#141011)'},
+    {k:'自然黑', name:'自然黑', bg:'#141011'},
+    {k:'深棕黑', name:'深棕黑', bg:'#2a1d18'},
+    {k:'自然深棕', name:'自然深棕', bg:'#3b2a22'},
+    {k:'巧克力棕', name:'巧克力棕', bg:'#5a3b2a'},
+    {k:'栗子棕', name:'栗子棕', bg:'#7a4f35'},
+    {k:'灰白混色', name:'灰白混色', bg:'linear-gradient(135deg,#2a1d18 50%,#9a9590 50%)'}
+  ];
+  const ICON_TRY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 4V2M15 16v-2M8 9h2M20 9h2M3 21l9-9"/></svg>';
+  const S = {style:'natural', color:'', photo:null, result:null, busy:false, server:'none', split:.5, drag:false};
+
+  // ---- 髮絲插畫（商品卡與首頁背景）
+  function strands(cv, color, len, count, seed, t){
+    const r = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    const w = Math.max(1, r.width), h = Math.max(1, r.height);
+    if (cv.width !== Math.round(w * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+    const c = cv.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
+    let s = seed; const rnd = () => (s = s * 16807 % 2147483647) / 2147483647;
+    for (let i = 0; i < count; i++) {
+      const u = i / (count - 1), x0 = w * (.1 + .8 * u), y0 = h * (.06 + .1 * Math.abs(u - .5)), L = h * len * (.7 + .3 * rnd()), ph = rnd() * 6.28;
+      c.beginPath();
+      for (let k = 0; k <= 30; k++) { const v = k / 30, x = x0 + Math.sin(v * 3 + ph + t * .0007) * 12 * v + (u - .5) * w * .25 * v, y = y0 + v * L; k ? c.lineTo(x, y) : c.moveTo(x, y); }
+      c.strokeStyle = color; c.globalAlpha = .35 + .55 * rnd(); c.lineWidth = .7 + rnd() * 1.5; c.stroke();
+    }
+    c.globalAlpha = 1;
+  }
+  function lighten(hex){ const n = parseInt(hex.slice(1), 16), f = v => Math.min(255, v + 70); return `rgb(${f(n >> 16)},${f(n >> 8 & 255)},${f(n & 255)})`; }
+
+  function productCard(st){
+    const el = document.createElement('article');
+    el.className = 'card';
+    el.innerHTML = `<div class="art"><canvas></canvas><button class="try" type="button">${ICON_TRY}AI 試戴</button></div>
+      <div class="body"><span class="tag">${st.tag}</span><h3>${st.name}</h3><p>${st.desc}</p><div class="price">價格請洽詢<span>LINE 報價</span></div></div>`;
+    el.querySelector('.try').addEventListener('click', () => { pickStyle(st.k); location.hash = 'tryon'; });
+    requestAnimationFrame(() => strands(el.querySelector('canvas'), lighten(st.hair), st.len, 60, 7 + st.k.length * 13, 0));
+    return el;
+  }
+  STYLES.forEach(st => $('home-products').appendChild(productCard(st)));
+  const FILTERS = [{k:'all', name:'全部'}, {k:'top', name:'頭頂補髮'}, {k:'men', name:'男士'}, {k:'women', name:'女士'}];
+  let filter = 'all';
+  function renderShop(){
+    $('shop-grid').innerHTML = '';
+    STYLES.filter(st => filter === 'all' || st.cat === filter).forEach(st => $('shop-grid').appendChild(productCard(st)));
+    [...$('shop-filter').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.k === filter));
+  }
+  FILTERS.forEach(f => { const b = document.createElement('button'); b.className = 'chip'; b.type = 'button'; b.dataset.k = f.k; b.textContent = f.name; b.addEventListener('click', () => { filter = f.k; renderShop(); }); $('shop-filter').appendChild(b); });
+
+  // ---- 試戴：款式與顏色
+  STYLES.forEach(st => { const b = document.createElement('button'); b.className = 'chip'; b.type = 'button'; b.dataset.k = st.k; b.textContent = st.name; b.addEventListener('click', () => pickStyle(st.k)); $('style-chips').appendChild(b); });
+  COLORS.forEach(c => { const b = document.createElement('button'); b.className = 'chip'; b.type = 'button'; b.dataset.k = c.k; b.innerHTML = `<i style="background:${c.bg}"></i>${c.name}`; b.addEventListener('click', () => { S.color = c.k; syncChips(); }); $('color-chips').appendChild(b); });
+  function pickStyle(k){ S.style = k; syncChips(); }
+  function syncChips(){
+    [...$('style-chips').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.k === S.style));
+    [...$('color-chips').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.k === S.color));
+  }
+  syncChips();
+
+  // ---- 照片
+  function loadPhoto(src){
+    const img = new Image();
+    img.onload = () => {
+      const sc = Math.min(1, 1024 / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * sc); c.height = Math.round(img.naturalHeight * sc);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      S.photo = c; S.result = null; S.split = .5; $('msg').textContent = ''; draw();
+    };
+    img.onerror = () => { $('msg').textContent = '這張照片讀不出來，請換一張 JPG 或 PNG。'; };
+    img.src = src;
+  }
+  ['file-main', 'file-replace'].forEach(id => $(id).addEventListener('change', e => { const f = e.target.files && e.target.files[0]; if (f) loadPhoto(URL.createObjectURL(f)); e.target.value = ''; }));
+  $('use-sample').addEventListener('click', () => loadPhoto(SAMPLE));
+
+  const cv = $('stage-canvas'), ctx = cv.getContext('2d');
+  function draw(){
+    const has = !!S.photo;
+    $('empty').hidden = has; $('replace').hidden = !has || S.busy; $('use-sample').hidden = has;
+    const cmp = has && !!S.result;
+    $('divider').hidden = !cmp; $('lbl-l').hidden = !cmp; $('lbl-r').hidden = !cmp; $('after-actions').hidden = !cmp;
+    $('generate').disabled = !has || S.busy || S.server !== 'ready';
+    $('generate-text').textContent = S.busy ? 'AI 生成中…' : S.result ? '換個款式再生成' : 'AI 生成試戴效果';
+    if (!has) { ctx.clearRect(0, 0, cv.width, cv.height); return; }
+    const p = S.photo;
+    if (cv.width !== p.width || cv.height !== p.height) { cv.width = p.width; cv.height = p.height; }
+    $('stage').style.aspectRatio = p.width + '/' + p.height;
+    ctx.drawImage(p, 0, 0);
+    if (cmp) {
+      const x = S.split * p.width;
+      ctx.save(); ctx.beginPath(); ctx.rect(0, 0, x, p.height); ctx.clip(); ctx.drawImage(S.result, 0, 0, p.width, p.height); ctx.restore();
+      $('divider').style.left = (S.split * 100) + '%';
+    }
+  }
+  const setSplit = e => { const b = cv.getBoundingClientRect(); S.split = Math.max(0, Math.min(1, (e.clientX - b.left) / b.width)); draw(); };
+  $('stage').addEventListener('pointerdown', e => { if (!S.result || e.target.closest('.replace')) return; S.drag = true; $('stage').setPointerCapture(e.pointerId); setSplit(e); });
+  $('stage').addEventListener('pointermove', e => { if (S.drag) setSplit(e); });
+  ['pointerup', 'pointercancel'].forEach(t => $('stage').addEventListener(t, () => { S.drag = false; }));
+
+  // ---- AI 連線狀態
+  const STATUS = {
+    none: ['warn', '這是預覽版，AI 生成只能在正式網站（vercel.app 網址）使用。'],
+    unconfigured: ['warn', '正式網站還沒讀到 Gemini API key：請到 Vercel 的 Environment Variables 確認 GEMINI_API_KEY，再 Redeploy。'],
+    locked: ['warn', '請用含存取碼的連結（網址後面加 /?k=存取碼）重新打開。'],
+    ready: ['ok', 'AI 已連線，可以開始試戴。']
+  };
+  function setServer(st){ S.server = st; const [cls, text] = STATUS[st]; $('status').className = 'status ' + cls; $('status-text').textContent = text; draw(); }
+  if (location.protocol.startsWith('http')) {
+    fetch('/api/tryon').then(r => r.status === 403 ? {locked:true} : r.ok ? r.json() : null)
+      .then(j => setServer(!j ? 'none' : j.locked ? 'locked' : j.configured ? 'ready' : 'unconfigured'))
+      .catch(() => setServer('none'));
+  } else setServer('none');
+
+  // ---- 生成
+  const ERR = {
+    not_configured:'網站還沒設定 Gemini API key。',
+    rate_limited:'試戴次數太多了，請一小時後再試。',
+    gemini_billing:'Gemini 帳號還沒開啟 API 付費（Billing），開啟後才能生成。',
+    gemini_quota:'Gemini 暫時忙碌或額度用完，請稍後再試。',
+    no_image:'AI 這次沒有產生照片，換個款式或照片再試一次。',
+    locked:'請用含存取碼的連結重新打開網站。'
+  };
+  $('generate').addEventListener('click', async () => {
+    if (!S.photo || S.busy) return;
+    S.busy = true; $('loading').hidden = false; $('msg').textContent = ''; draw();
+    try {
+      const resp = await fetch('/api/tryon', {method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({
+        image: S.photo.toDataURL('image/jpeg', .9), style: S.style, color: S.color, angle: '正面', density: .85 })});
+      const j = await resp.json().catch(() => ({}));
+      if (!resp.ok || !j.image) throw j.error || 'x';
+      const img = new Image();
+      await new Promise((ok, bad) => { img.onload = ok; img.onerror = bad; img.src = j.image; });
+      const out = document.createElement('canvas'); out.width = S.photo.width; out.height = S.photo.height;
+      out.getContext('2d').drawImage(img, 0, 0, out.width, out.height);
+      S.result = out; S.split = .5; saveHistory();
+    } catch (e) {
+      $('msg').textContent = ERR[e] || 'AI 生成失敗，請再試一次。';
+    }
+    S.busy = false; $('loading').hidden = true; draw();
+  });
+
+  // ---- 下載前後圖
+  $('download').addEventListener('click', () => {
+    const p = S.photo, gap = Math.round(p.width * .03), foot = Math.round(p.width * .09);
+    const out = document.createElement('canvas'); out.width = p.width * 2 + gap; out.height = p.height + foot;
+    const g = out.getContext('2d'); g.fillStyle = '#0e1420'; g.fillRect(0, 0, out.width, out.height);
+    g.drawImage(p, 0, 0); g.drawImage(S.result, p.width + gap, 0, p.width, p.height);
+    const fs = Math.round(p.width * .045); g.font = `700 ${fs}px "Noto Sans TC",sans-serif`;
+    [['原本', 0, 'rgba(14,20,32,.8)'], ['戴上後', p.width + gap, '#d4567c']].forEach(([t, x, bg]) => {
+      const tw = g.measureText(t).width; g.fillStyle = bg; g.fillRect(x + fs * .6, fs * .6, tw + fs, fs * 1.6); g.fillStyle = '#fff'; g.fillText(t, x + fs * 1.1, fs * 1.75);
+    });
+    g.fillStyle = '#e6b872'; g.font = `700 ${Math.round(fs * .9)}px "Noto Serif TC",serif`;
+    g.fillText('十八睞讓你美 ・ AI 試戴（' + STYLES.find(s => s.k === S.style).name + '）', fs * .6, p.height + foot * .65);
+    out.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = '十八睞讓你美-AI試戴.png'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000); }, 'image/png');
+  });
+
+  // ---- 試戴紀錄（只存在這支手機）
+  const KEY = 'tryon-history-v1';
+  function readHist(){ try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
+  function small(c, w){ const s = document.createElement('canvas'); s.width = w; s.height = Math.round(c.height * w / c.width); s.getContext('2d').drawImage(c, 0, 0, s.width, s.height); return s.toDataURL('image/jpeg', .8); }
+  function saveHistory(){
+    const list = readHist();
+    list.unshift({before: small(S.photo, 480), after: small(S.result, 480), style: S.style, t: Date.now()});
+    for (let n = Math.min(list.length, 8); n > 0; n--) { try { localStorage.setItem(KEY, JSON.stringify(list.slice(0, n))); break; } catch (e) {} }
+    renderHist();
+  }
+  function renderHist(){
+    const list = readHist(), box = $('hist'); box.innerHTML = '';
+    $('hist-count').textContent = list.length ? list.length + ' 張' : '';
+    list.forEach(h => {
+      const b = document.createElement('button'); b.type = 'button';
+      b.setAttribute('aria-label', '打開試戴紀錄：' + (STYLES.find(s => s.k === h.style) || STYLES[0]).name);
+      b.innerHTML = `<img alt="" src="${h.after}">`;
+      b.addEventListener('click', () => {
+        const a = new Image(), o = new Image(); let n = 0;
+        const done = () => { if (++n < 2) return; const c1 = document.createElement('canvas'); c1.width = o.naturalWidth; c1.height = o.naturalHeight; c1.getContext('2d').drawImage(o, 0, 0);
+          const c2 = document.createElement('canvas'); c2.width = c1.width; c2.height = c1.height; c2.getContext('2d').drawImage(a, 0, 0, c1.width, c1.height);
+          S.photo = c1; S.result = c2; S.style = h.style; S.split = .5; syncChips(); location.hash = 'tryon'; draw(); };
+        a.onload = o.onload = done; a.src = h.after; o.src = h.before;
+      });
+      box.appendChild(b);
+    });
+    const add = document.createElement('button'); add.type = 'button'; add.className = 'add'; add.innerHTML = '<span style="font-size:1.6rem">＋</span>去試戴';
+    add.addEventListener('click', () => { location.hash = 'tryon'; }); box.appendChild(add);
+  }
+  renderHist();
+
+  // ---- 分頁
+  const VIEWS = ['home', 'tryon', 'shop', 'me'];
+  function route(){
+    const v = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'home';
+    VIEWS.forEach(k => { $('v-' + k).hidden = k !== v; });
+    document.querySelectorAll('.tabbar a').forEach(a => { if (a.dataset.tab === v) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if (v === 'shop') renderShop();
+    if (v === 'tryon') draw();
+    window.scrollTo(0, 0);
+  }
+  addEventListener('hashchange', route); route();
+
+  // ---- 首頁背景髮絲
+  const hero = $('hero-strands'), reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function loop(t){ if (!$('v-home').hidden) strands(hero, '#e6b872', .95, 70, 11, t); if (!reduce) requestAnimationFrame(loop); }
+  loop(0);
+})();
+</script>
+</body>
+</html>
