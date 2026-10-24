@@ -1,0 +1,3 @@
+{
+  "functions": { "api/tryon.js": { "maxDuration": 60 } }
+}
