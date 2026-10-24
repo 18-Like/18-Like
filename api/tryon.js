@@ -1,6 +1,8 @@
 // AI 換髮：把客人照片和補髮範圍交給 Gemini 生成戴上髮片後的照片。
 // API key 只放在伺服器環境變數 GEMINI_API_KEY，不會出現在網頁裡。
 
+import { allowed } from './_auth.js';
+
 const MODELS = (process.env.GEMINI_MODEL || 'gemini-3.1-flash-image,gemini-3-pro-image,gemini-2.5-flash-image')
   .split(',').map(s => s.trim()).filter(Boolean);
 const LIMIT_PER_HOUR = Number(process.env.TRYON_LIMIT_PER_HOUR || 20);
@@ -32,6 +34,7 @@ function buildPrompt({ angle, color, density }) {
 
 export default async function handler(req, res) {
   const key = process.env.GEMINI_API_KEY;
+  if (!allowed(req)) return res.status(403).json({ ok: false, error: 'locked' });
   if (req.method === 'GET') return res.status(200).json({ ok: true, configured: !!key });
   if (req.method !== 'POST') return res.status(405).json({ error: 'method_not_allowed' });
   if (!key) return res.status(503).json({ error: 'not_configured' });
