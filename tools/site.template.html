@@ -37,6 +37,17 @@ p{margin:0}
 .brand{font-family:var(--f-brand);font-weight:600;font-size:1.45rem;letter-spacing:.08em;text-decoration:none;line-height:1}
 .brand small{display:block;font-weight:400;font-size:.6rem;letter-spacing:.42em;color:var(--gold);margin-top:3px;padding-left:2.2em}
 .slogan{font-family:var(--f-brand);letter-spacing:.14em;font-size:.82rem;color:var(--gold)}
+.orbit{position:relative;margin-top:20px;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#8a8682;aspect-ratio:520/489;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.orbit.drag{cursor:grabbing}
+.orbit img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none;-webkit-user-drag:none}
+.orbit img.on{opacity:1}
+.orbit .hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;background:rgba(14,20,32,.78);border-radius:999px;padding:6px 14px;font-size:.85rem;font-weight:700;white-space:nowrap;transition:opacity .4s}
+.orbit .hint svg{width:18px;height:18px}
+.orbit .deg{position:absolute;right:12px;top:12px;background:rgba(14,20,32,.78);border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:700;font-variant-numeric:tabular-nums}
+.orbit .note{position:absolute;left:12px;top:12px;background:rgba(14,20,32,.7);color:var(--muted);border-radius:999px;padding:1px 9px;font-size:.7rem}
+.orbit-dots{display:flex;justify-content:center;gap:6px;margin-top:12px}
+.orbit-dots i{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .2s,transform .2s}
+.orbit-dots i.on{background:var(--gold);transform:scale(1.3)}
 .store{border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--surface);margin-top:20px}
 .store img{width:100%;aspect-ratio:1100/605;object-fit:cover}
 .store .body{padding:16px;display:grid;gap:8px}
@@ -206,6 +217,18 @@ details p{color:var(--muted);margin-top:6px;font-size:.93rem}
           <li><span class="ic" style="background:#c7772f"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg></span><div><h3>訂製與修剪</h3><p>依你的頭型與原生髮修剪，戴上後自然銜接。</p></div></li>
           <li><span class="ic" style="background:#1f8a5b"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></span><div><h3>配戴教學與保養</h3><p>附上配戴、清洗與保養說明，有問題隨時 LINE 問。</p></div></li>
         </ol>
+      </div>
+    </section>
+    <section style="padding-top:0">
+      <div class="wrap">
+        <span class="eyebrow"><i></i>360° 環繞檢視</span>
+        <h2 class="sec-title">前後左右，一次看清楚</h2>
+        <p class="sec-sub">用手指或滑鼠左右拖曳，看髮片戴上後每個角度的自然度。</p>
+        <div class="orbit" id="spin" role="img" aria-label="髮片 360 度環繞示意，可左右拖曳旋轉">
+          <span class="note">示意圖</span><span class="deg" id="spin-deg">0°</span>
+          <span class="hint" id="spin-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7 4 11l4 4M16 7l4 4-4 4M4 11h16"/></svg>左右拖曳旋轉</span>
+        </div>
+        <div class="orbit-dots" id="spin-dots" aria-hidden="true"></div>
       </div>
     </section>
     <section style="padding-top:0">
@@ -509,6 +532,32 @@ details p{color:var(--muted);margin-top:6px;font-size:.93rem}
     window.scrollTo(0, 0);
   }
   addEventListener('hashchange', route); route();
+
+  // ---- 360° 環繞檢視（8 張角度圖，拖曳換圖）
+  (() => {
+    const box = $('spin'), N = 8, DEG = [0, 45, 90, 135, 180, 135, 90, 45], STEP = 36;
+    const imgs = [], dots = [];
+    for (let i = 0; i < N; i++) {
+      const im = new Image(); im.src = `/img/spin/${i}.jpg`; im.alt = ''; im.draggable = false;
+      box.insertBefore(im, box.firstChild); imgs.push(im);
+      const d = document.createElement('i'); $('spin-dots').appendChild(d); dots.push(d);
+    }
+    let f = 0, startX = 0, startF = 0, drag = false, auto = true, last = 0;
+    const show = n => {
+      f = ((n % N) + N) % N;
+      imgs.forEach((im, i) => im.classList.toggle('on', i === f));
+      dots.forEach((d, i) => d.classList.toggle('on', i === f));
+      $('spin-deg').textContent = DEG[f] + '°';
+    };
+    const stopAuto = () => { auto = false; $('spin-hint').style.opacity = 0; };
+    box.addEventListener('pointerdown', e => { drag = true; stopAuto(); startX = e.clientX; startF = f; box.classList.add('drag'); box.setPointerCapture(e.pointerId); });
+    box.addEventListener('pointermove', e => { if (drag) show(startF + Math.round((startX - e.clientX) / STEP)); });
+    const end = () => { drag = false; box.classList.remove('drag'); };
+    box.addEventListener('pointerup', end); box.addEventListener('pointercancel', end);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const tick = t => { if (!auto) return; if (t - last > 700 && !$('v-home').hidden) { last = t; show(f + 1); } requestAnimationFrame(tick); };
+    show(0); if (!reduce) requestAnimationFrame(tick);
+  })();
 
 })();
 </script>
