@@ -3,7 +3,7 @@
 
 import { allowed } from './_auth.js';
 
-const MODELS = (process.env.GEMINI_MODEL || 'gemini-3.1-flash-image,gemini-3-pro-image,gemini-2.5-flash-image')
+const MODELS = (process.env.GEMINI_MODEL || 'gemini-2.5-flash-image')
   .split(',').map(s => s.trim()).filter(Boolean);
 const LIMIT_PER_HOUR = Number(process.env.TRYON_LIMIT_PER_HOUR || 20);
 const MAX_DATA_URL = 3_000_000;

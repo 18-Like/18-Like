@@ -20,7 +20,7 @@
 
 ## 其他設定
 
-- `GEMINI_MODEL`：指定模型，預設依序嘗試 `gemini-3.1-flash-image`、`gemini-3-pro-image`、`gemini-2.5-flash-image`
+- `GEMINI_MODEL`：指定模型，預設 `gemini-2.5-flash-image`（每張約 0.039 美元）
 - `TRYON_LIMIT_PER_HOUR`：每個 IP 每小時可生成次數，預設 20
 
 API key 只放在 Vercel 設定裡，不要寫進程式碼或貼到聊天。建議在 Google Cloud 帳單設定預算提醒。
